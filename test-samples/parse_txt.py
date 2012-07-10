@@ -37,5 +37,11 @@ numsColsUITable = [firstRow.index(num) for num in firstRow if num in namesColsUI
 # Убираем из таблицы ненужные столбцы
 tblUniqueItems = [[tblUniqueItems[j][i] for i in numsColsUITable] for j in xrange(len(tblUniqueItems))]
 
-
-
+for key,value in tblExpString:
+    for i,row in enumerate(tblUniqueItems):
+        if row[0] == key:
+            tblUniqueItems[i][0]=value
+for row in tblUniqueItems:
+    print row[0].encode('utf-8')
+        
+    
