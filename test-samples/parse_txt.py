@@ -2,7 +2,7 @@
 import csv
 import os.path
 
-namesStringTables = ('string.txt','expansionstring.txt','patchstring.txt',)
+namesStringTables = ('string.csv','expansionstring.csv','patchstring.csv',)
 # Имена нужных столбцов в таблице уникальных предметов
 namesColsUITable = ('index','enabled','rarity','lvl req','code',
                                'prop1','par1','min1','max1',
@@ -24,19 +24,21 @@ for row in csv.reader(srcTxtUniqueItems, dialect='excel-tab'):
     tblUniqueItems.append(row)
 
     
-strTblString = open(os.path.join("../string-tables/ultimative-6/eng/",namesStringTables[0]),'rb')
+strTblString = open(os.path.join("../string-tables/ultimative-6/rus/",namesStringTables[0]),'r')
 tblString = {}
-for row in csv.reader(strTblString, dialect='excel-tab'):
+for row in csv.reader(strTblString, dialect='excel'):
+    print row
     tblString[row[0]]=row[1]
     
-strTblExpString = open(os.path.join("../string-tables/ultimative-6/rus/",namesStringTables[1]),'rb')
+strTblExpString = open(os.path.join("../string-tables/ultimative-6/rus/",namesStringTables[1]),'r')
 tblExpString = {}
-for row in csv.reader(strTblExpString, dialect='excel-tab'):
+for row in csv.reader(strTblExpString, dialect='excel'):
+    
     tblExpString[row[0]]=row[1]
     
-strTblPatchString = open(os.path.join("../string-tables/ultimative-6/eng/",namesStringTables[2]),'rb')
+strTblPatchString = open(os.path.join("../string-tables/ultimative-6/rus/",namesStringTables[2]),'r')
 tblPatchString = {}
-for row in csv.reader(strTblPatchString, dialect='excel-tab'):
+for row in csv.reader(strTblPatchString, dialect='excel'):
     tblPatchString[row[0]]=row[1]
 
 # Первая строка с названиями столбцов
@@ -49,7 +51,7 @@ numsColsUITable = [firstRow.index(num) for num in firstRow if num in namesColsUI
 tblUniqueItems = [[tblUniqueItems[j][i] for i in numsColsUITable] for j in xrange(len(tblUniqueItems))]
 tblUniqueItems = [row for row in tblUniqueItems if row[namesColsUITable.index('enabled')] == '1']
 
-print len(tblExpString)
+print len(tblString)
 
 #for i,value in enumerate(tblUniqueItems):
 #    getValue = tblString.get(value[0],'empty_value')
