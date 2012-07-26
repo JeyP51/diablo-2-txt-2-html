@@ -2,7 +2,7 @@
 import csv
 import os.path
 
-namesStringTables = ('expansionstring.txt','patchstring.txt','string.txt',)
+namesStringTables = ('string.txt','expansionstring.txt','patchstring.txt',)
 # Имена нужных столбцов в таблице уникальных предметов
 namesColsUITable = ('index','enabled','rarity','lvl req','code',
                                'prop1','par1','min1','max1',
@@ -18,15 +18,26 @@ namesColsUITable = ('index','enabled','rarity','lvl req','code',
                                'prop11','par11','min11','max11',
                                'prop12','par12','min12','max12',)
 
-srcTxtUniqueItems = open('../txt-sources/ultimative-4/uniqueitems.txt','rb')
+srcTxtUniqueItems = open('../txt-sources/ultimative-6/uniqueitems.txt','rb')
 tblUniqueItems = []
 for row in csv.reader(srcTxtUniqueItems, dialect='excel-tab'):
     tblUniqueItems.append(row)
 
-strTblExpString = open(os.path.join("../string-tables/ultimative-4/rus/",namesStringTables[0]),'rb')
-tblExpString = []
+    
+strTblString = open(os.path.join("../string-tables/ultimative-6/eng/",namesStringTables[0]),'rb')
+tblString = {}
+for row in csv.reader(strTblString, dialect='excel-tab'):
+    tblString[row[0]]=row[1]
+    
+strTblExpString = open(os.path.join("../string-tables/ultimative-6/rus/",namesStringTables[1]),'rb')
+tblExpString = {}
 for row in csv.reader(strTblExpString, dialect='excel-tab'):
-    tblExpString.append(row)
+    tblExpString[row[0]]=row[1]
+    
+strTblPatchString = open(os.path.join("../string-tables/ultimative-6/eng/",namesStringTables[2]),'rb')
+tblPatchString = {}
+for row in csv.reader(strTblPatchString, dialect='excel-tab'):
+    tblPatchString[row[0]]=row[1]
 
 # Первая строка с названиями столбцов
 firstRow = tblUniqueItems.pop(0)
@@ -36,12 +47,21 @@ numsColsUITable = [firstRow.index(num) for num in firstRow if num in namesColsUI
 
 # Убираем из таблицы ненужные столбцы
 tblUniqueItems = [[tblUniqueItems[j][i] for i in numsColsUITable] for j in xrange(len(tblUniqueItems))]
+tblUniqueItems = [row for row in tblUniqueItems if row[namesColsUITable.index('enabled')] == '1']
 
-for key,value in tblExpString:
-    for i,row in enumerate(tblUniqueItems):
-        if row[0] == key:
-            tblUniqueItems[i][0]=value
-for row in tblUniqueItems:
-    print row[0].encode('utf-8')
-        
-    
+print len(tblExpString)
+
+#for i,value in enumerate(tblUniqueItems):
+#    getValue = tblString.get(value[0],'empty_value')
+#    if getValue != 'empty_value':
+#        tblUniqueItems[i][0] = getValue
+#for i,value in enumerate(tblUniqueItems):
+#    getValue = tblExpString.get(value[0],'empty_value')
+#    if getValue != 'empty_value':
+#        tblUniqueItems[i][0] = getValue
+#for i,value in enumerate(tblUniqueItems):
+#    getValue = tblPatchString.get(value[0],'empty_value')
+#    if getValue != 'empty_value':
+#        tblUniqueItems[i][0] = getValue
+#for row in tblUniqueItems:
+#    print row[0].encode('utf-8')
