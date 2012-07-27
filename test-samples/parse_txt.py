@@ -23,24 +23,24 @@ srcTxtUniqueItems = open('../txt-sources/ultimative-6/uniqueitems.txt','rb')
 tblUniqueItems = []
 for row in csv.reader(srcTxtUniqueItems, dialect='excel-tab'):
     tblUniqueItems.append(row)
-    
+
 srcTxtWeapons = open('../txt-sources/ultimative-6/weapons.txt','rb')
 tblWeapons = []
 for row in csv.reader(srcTxtWeapons, dialect='excel-tab'):
     tblWeapons.append(row)
 
 
-    
+
 strTblString = open(os.path.join("../string-tables/ultimative-6/rus/",namesStringTables[0]),'rb')
 tblString = {}
 for row in csv.reader(strTblString, dialect='excel'):
     tblString[row[0]]=row[1]
-    
+
 strTblExpString = open(os.path.join("../string-tables/ultimative-6/rus/",namesStringTables[1]),'rb')
 tblExpString = {}
 for row in csv.reader(strTblExpString, dialect='excel'):
     tblExpString[row[0]]=row[1]
-    
+
 strTblPatchString = open(os.path.join("../string-tables/ultimative-6/rus/",namesStringTables[2]),'rb')
 tblPatchString = {}
 for row in csv.reader(strTblPatchString, dialect='excel'):
