@@ -17,53 +17,64 @@ namesColsUITable = ('index','enabled','rarity','lvl req','code',
                                'prop10','par10','min10','max10',
                                'prop11','par11','min11','max11',
                                'prop12','par12','min12','max12',)
+namesColsWeaponsTable = ('type','code')
 
 srcTxtUniqueItems = open('../txt-sources/ultimative-6/uniqueitems.txt','rb')
 tblUniqueItems = []
 for row in csv.reader(srcTxtUniqueItems, dialect='excel-tab'):
     tblUniqueItems.append(row)
+    
+srcTxtWeapons = open('../txt-sources/ultimative-6/weapons.txt','rb')
+tblWeapons = []
+for row in csv.reader(srcTxtWeapons, dialect='excel-tab'):
+    tblWeapons.append(row)
+
 
     
-strTblString = open(os.path.join("../string-tables/ultimative-6/rus/",namesStringTables[0]),'r')
+strTblString = open(os.path.join("../string-tables/ultimative-6/rus/",namesStringTables[0]),'rb')
 tblString = {}
 for row in csv.reader(strTblString, dialect='excel'):
-    print row
     tblString[row[0]]=row[1]
     
-strTblExpString = open(os.path.join("../string-tables/ultimative-6/rus/",namesStringTables[1]),'r')
+strTblExpString = open(os.path.join("../string-tables/ultimative-6/rus/",namesStringTables[1]),'rb')
 tblExpString = {}
 for row in csv.reader(strTblExpString, dialect='excel'):
-    
     tblExpString[row[0]]=row[1]
     
-strTblPatchString = open(os.path.join("../string-tables/ultimative-6/rus/",namesStringTables[2]),'r')
+strTblPatchString = open(os.path.join("../string-tables/ultimative-6/rus/",namesStringTables[2]),'rb')
 tblPatchString = {}
 for row in csv.reader(strTblPatchString, dialect='excel'):
     tblPatchString[row[0]]=row[1]
 
 # Первая строка с названиями столбцов
-firstRow = tblUniqueItems.pop(0)
+firstRowUI = tblUniqueItems.pop(0)
+fisrtRowW = tblWeapons.pop(0)
 
 # Номера нужных столбцоы в таблице уникальных предметов
-numsColsUITable = [firstRow.index(num) for num in firstRow if num in namesColsUITable]
+numsColsUITable = [firstRowUI.index(num) for num in firstRowUI if num in namesColsUITable]
+
+numsColsWTable = [fisrtRowW.index(num) for num in fisrtRowW if num in namesColsWeaponsTable]
 
 # Убираем из таблицы ненужные столбцы
 tblUniqueItems = [[tblUniqueItems[j][i] for i in numsColsUITable] for j in xrange(len(tblUniqueItems))]
-tblUniqueItems = [row for row in tblUniqueItems if row[namesColsUITable.index('enabled')] == '1']
+tblUniqueItems = [row[::-1] for row in tblUniqueItems if row[namesColsUITable.index('enabled')] == '1']
 
-print len(tblString)
+tblWeapons = [[tblWeapons[j][i] for i in numsColsWTable][::-1] for j in xrange(len(tblWeapons))]
+tblWeapons = dict(tblWeapons)
+tblUniqueItems = [row for row in tblUniqueItems if tblWeapons.get(row[namesColsUITable.index('code')])]
+#print tblWeapons
 
-#for i,value in enumerate(tblUniqueItems):
-#    getValue = tblString.get(value[0],'empty_value')
-#    if getValue != 'empty_value':
-#        tblUniqueItems[i][0] = getValue
-#for i,value in enumerate(tblUniqueItems):
-#    getValue = tblExpString.get(value[0],'empty_value')
-#    if getValue != 'empty_value':
-#        tblUniqueItems[i][0] = getValue
-#for i,value in enumerate(tblUniqueItems):
-#    getValue = tblPatchString.get(value[0],'empty_value')
-#    if getValue != 'empty_value':
-#        tblUniqueItems[i][0] = getValue
-#for row in tblUniqueItems:
-#    print row[0].encode('utf-8')
+for i,value in enumerate(tblUniqueItems):
+    getValue = tblString.get(value[0],'empty_value')
+    if getValue != 'empty_value':
+        tblUniqueItems[i][0] = getValue
+for i,value in enumerate(tblUniqueItems):
+    getValue = tblExpString.get(value[0],'empty_value')
+    if getValue != 'empty_value':
+        tblUniqueItems[i][0] = getValue
+for i,value in enumerate(tblUniqueItems):
+    getValue = tblPatchString.get(value[0],'empty_value')
+    if getValue != 'empty_value':
+        tblUniqueItems[i][0] = getValue
+for row in tblUniqueItems:
+    print row[0].encode('utf-8')
