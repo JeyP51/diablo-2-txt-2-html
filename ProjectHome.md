@@ -1,0 +1,1 @@
+Parse txt-source files Diablo II & create docs with lists uniques,sets items & more usefull information
